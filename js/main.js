@@ -1,4 +1,8 @@
 import './util.js';
-import {createSimilarPhotoObjects} from './data.js';
+import './data.js';
+import './renderpictures.js';
+import {renderTemplatePictures} from './renderpictures.js';
 
-console.log (createSimilarPhotoObjects());
+renderTemplatePictures();
+
+

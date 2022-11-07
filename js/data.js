@@ -35,7 +35,7 @@ const TRAVEL = [
   'concert',
   'bigCar',
 ];
-
+const NUMBERSOFCARDS = 25;
 const createNewObject = () => (
   {
     id: getPhotoId(),
@@ -46,6 +46,6 @@ const createNewObject = () => (
   }
 );
 
-const createSimilarPhotoObjects = () => Array.from({length: 25}, createNewObject);
+const createSimilarPhotoObjects = () => Array.from({length: NUMBERSOFCARDS}, createNewObject);
 
 export {createSimilarPhotoObjects};
