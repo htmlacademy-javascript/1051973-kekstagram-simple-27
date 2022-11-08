@@ -3,17 +3,20 @@ import {createSimilarPhotoObjects} from './data.js';
 const randomUsersImageTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesForTemplateBlock = document.querySelector('.pictures');
 
-const data = createSimilarPhotoObjects();
+const photoUsersData = createSimilarPhotoObjects();
+
+const photosUsersFragment = document.createDocumentFragment();
 
 
-const renderTemplatePictures = () => {
-  data.forEach(({url, likes, comments}) => {
-    const pictureUserElement = randomUsersImageTemplate.cloneNode(true);
-    pictureUserElement.querySelector('.picture__img').src = url;
-    pictureUserElement.querySelector('.picture__likes').textContent = likes;
-    pictureUserElement.querySelector('.picture__comments').textContent = comments;
-    picturesForTemplateBlock.append(pictureUserElement);
-  });
-};
+photoUsersData.forEach(({url, likes, comments}) => {
+  const pictureUserElement = randomUsersImageTemplate.cloneNode(true);
+  pictureUserElement.querySelector('.picture__img').src = url;
+  pictureUserElement.querySelector('.picture__likes').textContent = likes;
+  pictureUserElement.querySelector('.picture__comments').textContent = comments;
+  photosUsersFragment.appendChild(pictureUserElement);
+});
 
-export {renderTemplatePictures};
+picturesForTemplateBlock.appendChild(photosUsersFragment);
+
+export {picturesForTemplateBlock};
+

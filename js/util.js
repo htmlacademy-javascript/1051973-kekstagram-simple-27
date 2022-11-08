@@ -31,10 +31,13 @@ function getPhotoUrl () {
 
 const getRandomArrayElement = (elements) => elements[randomIntFromInterval(0, elements.length - 1)];
 
+const isEscDone = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+
 export {
   getRandomArrayElement,
   randomIntFromInterval,
   getPhotoId,
   getPhotoUrl,
-  stringLength
+  stringLength,
+  isEscDone
 };
