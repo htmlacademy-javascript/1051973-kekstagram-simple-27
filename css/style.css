@@ -710,6 +710,17 @@ main {
   border-radius: 5px;
 }
 
+.text__description:valid:not(:placeholder-shown) {
+  outline: none;
+  -webkit-box-shadow: 0 0 2px 2px #0a9615;
+          box-shadow: 0 0 2px 2px #0a9615;
+}
+.text__description:invalid:not(:placeholder-shown) {
+  outline: none;
+  -webkit-box-shadow: 0 0 2px 2px #ff000dc0;
+          box-shadow: 0 0 2px 2px #ff000dc0;
+}
+
 
 /**
   * Кнопка для отправки изображения
