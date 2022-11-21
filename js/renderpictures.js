@@ -17,7 +17,8 @@ const createPhoto = (photo) => {
     photosUsersFragment.appendChild(pictureUserElement);
   });
 
-picturesForTemplateBlock.appendChild(photosUsersFragment);
+  picturesForTemplateBlock.appendChild(photosUsersFragment);
 };
+
 export {picturesForTemplateBlock, createPhoto};
 

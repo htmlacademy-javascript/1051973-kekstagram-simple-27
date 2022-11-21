@@ -22,33 +22,7 @@ const EFFECT_FILTERS_DICTIONARY = {
   'phobos': 'blur',
   'heat': 'brightness',
 };
-const RANGE_OPTIONS = {
-  grayscale: {
-    min: 0,
-    max: 1,
-    step: 0.1,
-  },
-  sepia: {
-    min: 0,
-    max: 1,
-    step: 0.1,
-  },
-  invert: {
-    min: 0,
-    max: 100,
-    step: 1,
-  },
-  blur: {
-    min: 0,
-    max: 3,
-    step: 0.1,
-  },
-  brightness: {
-    min: 1,
-    max: 3,
-    step: 0.1,
-  },
-};
+
 const movingSlider = (filterValue) => {
   if (filterValue === 'chrome') {
     sliderElement.noUiSlider.updateOptions({
