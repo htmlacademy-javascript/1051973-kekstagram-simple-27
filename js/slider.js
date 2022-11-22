@@ -1,4 +1,4 @@
-import { imgUploadPreview, valueScaleInput, SCALE_CONTROL_MAX} from './form.js';
+import { imgUploadPreview, scaleValue, SCALE_CONTROL_MAX} from './form.js';
 
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
@@ -84,7 +84,7 @@ const isOriginalEffect = () => {
 const resetFilterValues = () => {
   imgUploadPreview.removeAttribute('class');
   imgUploadPreview.removeAttribute('style');
-  valueScaleInput.setAttribute('value', `${SCALE_CONTROL_MAX}%`);
+  scaleValue.setAttribute('value', SCALE_CONTROL_MAX);
 };
 
 const changeFilterEffect = (photo, nameFilter) => {
