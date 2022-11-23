@@ -4,7 +4,7 @@ import {resetFilterValues, isOriginalEffect, sliderElement, createSlider, elemen
 import {sendData} from './server.js';
 
 import {showPopupSuccess, showPopupError} from './popup.js';
-const MAX_LENGTH_TEXT_DESCRIPTION = 140;
+//const MAX_LENGTH_TEXT_DESCRIPTION = 140;
 
 
 const SCALE_CONTROL_MAX = 100;
@@ -20,7 +20,6 @@ const radioEffectsItems = document.querySelectorAll('.effects__radio');
 
 const btnSmallerScale = uploadImgForm.querySelector('.scale__control--smaller');
 const btnBiggerScale = uploadImgForm.querySelector('.scale__control--bigger');
-const valueScaleInput = uploadImgForm.querySelector('.scale__control--value');
 const imgUploadPreview = uploadImgForm.querySelector('.img-upload__preview img');
 
 const imgUploadForm = picturesForTemplateBlock.querySelector('.img-upload__form');
@@ -50,39 +49,6 @@ btnSmallerScale.addEventListener('click', () => {
   }
 });
 
-
-/*const setScale = (value) => {
-  if (value === SCALE_CONTROL.MIN) {
-    imgUploadPreview.style.transform = 'scale(0.25)';
-  } else if (value === SCALE_CONTROL.MIDDLE) {
-    imgUploadPreview.style.transform = 'scale(0.50)';
-  } else if (value === SCALE_CONTROL.HIGH) {
-    imgUploadPreview.style.transform = 'scale(0.75)';
-  } else if (value === SCALE_CONTROL.MAX){
-    imgUploadPreview.style.transform = 'scale(1)';
-  }
-}; */
-/*
-const onBtnSmallerScaleClick = () => {
-  const currentValue = Number(valueScaleInput.getAttribute('value').replace('%', ''));
-  let valueMin = '';
-  if (currentValue <= SCALE_CONTROL.MAX && currentValue > SCALE_CONTROL.MIN) {
-    valueMin = currentValue - SCALE_CONTROL.STEP;
-    valueScaleInput.setAttribute('value', `${valueMin}%`);
-    setScale(valueMin);
-  }
-};
-const onBtnBiggerScaleClick = () => {
-  const currentValue = Number(valueScaleInput.getAttribute('value').replace('%', ''));
-  let valueMax = '';
-  if (currentValue >= SCALE_CONTROL.MIN && currentValue < SCALE_CONTROL.MAX) {
-    valueMax = currentValue + SCALE_CONTROL.STEP;
-    valueScaleInput.setAttribute('value', `${valueMax}%`);
-    setScale(valueMax);
-  }
-};
-*/
-
 const onPopupEscKeydown = (evt) => {
   if (isEscDone(evt)) {
     evt.preventDefault();
@@ -99,7 +65,7 @@ const onPopupEscKeydown = (evt) => {
 const openFormEditingImg = () => {
   uploadImgForm.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
-  valueScaleInput.setAttribute('value', '100%');
+  scaleValue.value = '100%';
   elementEffectNone.checked = true;
   createSlider();
   isOriginalEffect();
@@ -158,21 +124,22 @@ function clearFormEditing () {
   // Уничтожить слайдер
   sliderElement.noUiSlider.destroy();
 }
-const onInputDescriptionValid = () => {
-  const currentLengthComment = inputDescription.value.length;
+const pristine = new Pristine (imgUploadForm, {
+  classTo: 'img-upload__text',
+  errorTextParent: 'img-upload__text',
+});
 
-  if (currentLengthComment > MAX_LENGTH_TEXT_DESCRIPTION) {
-    inputDescription.setCustomValidity(`Длина комментария не может превышать 140 символов. Удалите лишние ${currentLengthComment - MAX_LENGTH_TEXT_DESCRIPTION} символы`);
-  } else {
+function validateComment (value) {
+  return value.length >= 20 && value.length <= 140;
+}
 
-    inputDescription.setCustomValidity('');
-  }
+pristine.addValidator(
+  uploadImgForm.querySelector('.text__description'),
+  validateComment,
+  'От 20 до 140 символов'
+);
 
-  inputDescription.reportValidity();
-};
-
-
-inputDescription.addEventListener('input', onInputDescriptionValid);
+inputDescription.addEventListener('input', validateComment);
 // Открытие формы редактирования снова, с сохранением всех введенных данных,
 // если при отправке данных произошла ошибка запроса
 const openFormEditingImgAgain = () => {
@@ -196,20 +163,21 @@ const uploadImgAgain = () => {
 const setUserFormSubmit = (onSuccess, onFail) => {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-
-    sendData(
-      () => {
-        onSuccess();
-        showPopupSuccess();
-      },
-      () => {
-        onFail();
-        showPopupError();
-        uploadImgAgain();
-      },
-      new FormData(evt.target),
-    );
+    if(pristine.validate()){
+      sendData(
+        () => {
+          onSuccess();
+          showPopupSuccess();
+        },
+        () => {
+          onFail();
+          showPopupError();
+          uploadImgAgain();
+        },
+        new FormData(evt.target),
+      );
+    }
   });
 };
 
-export {uploadImgForm, imgUploadPreview, valueScaleInput, uploadImgInput, SCALE_CONTROL_MAX, setUserFormSubmit, closeFormEditingImg, closeFormEditingImgError};
+export {uploadImgForm, imgUploadPreview, scaleValue, uploadImgInput, SCALE_CONTROL_MAX, setUserFormSubmit, closeFormEditingImg, closeFormEditingImgError};
