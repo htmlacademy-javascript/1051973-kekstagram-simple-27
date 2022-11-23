@@ -13,7 +13,7 @@ const createPhoto = (photo) => {
     const pictureUserElement = randomUsersImageTemplate.cloneNode(true);
     pictureUserElement.querySelector('.picture__img').src = url;
     pictureUserElement.querySelector('.picture__likes').textContent = likes;
-    pictureUserElement.querySelector('.picture__comments').textContent = comments.length;
+    pictureUserElement.querySelector('.picture__comments').textContent = comments;
     photosUsersFragment.appendChild(pictureUserElement);
   });
 

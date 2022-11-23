@@ -157,9 +157,9 @@ function clearFormEditing () {
   // Уничтожить слайдер
   sliderElement.noUiSlider.destroy();
 }
-const pristine = new Pristine (uploadImgForm, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper'
+const pristine = new Pristine (imgUploadForm, {
+  classTo: 'img-upload__text',
+  errorTextParent: 'img-upload__text',
 });
 
 function validateComment (value) {
@@ -171,7 +171,6 @@ pristine.addValidator(
   validateComment,
   'От 20 до 140 символов'
 );
-
 
 inputDescription.addEventListener('input', validateComment);
 // Открытие формы редактирования снова, с сохранением всех введенных данных,
@@ -197,19 +196,20 @@ const uploadImgAgain = () => {
 const setUserFormSubmit = (onSuccess, onFail) => {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-
-    sendData(
-      () => {
-        onSuccess();
-        showPopupSuccess();
-      },
-      () => {
-        onFail();
-        showPopupError();
-        uploadImgAgain();
-      },
-      new FormData(evt.target),
-    );
+    if(pristine.validate()){
+      sendData(
+        () => {
+          onSuccess();
+          showPopupSuccess();
+        },
+        () => {
+          onFail();
+          showPopupError();
+          uploadImgAgain();
+        },
+        new FormData(evt.target),
+      );
+    }
   });
 };
 
