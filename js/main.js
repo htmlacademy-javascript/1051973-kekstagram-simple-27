@@ -8,10 +8,10 @@ import './server.js';
 import './popup.js';
 import {getData} from './server.js';
 import {createPhoto} from './renderpictures.js';
-import {setUserFormSubmit, closeFormEditingImg, closeFormEditingImgError} from './form.js';
+import {setUserFormSubmit, closeFormEditingImg} from './form.js';
 
 getData((photo) => {
   createPhoto(photo);
 });
 
-setUserFormSubmit(closeFormEditingImg, closeFormEditingImgError);
+setUserFormSubmit(closeFormEditingImg);

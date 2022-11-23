@@ -1,44 +1,30 @@
 import {showAlert} from './util.js';
 
-const urlGetData = ' https://27.javascript.pages.academy/kekstagram-simple/data';
-const urlSendData = ' https://27.javascript.pages.academy/kekstagram-simple';
 
-// Получить данные
 const getData = (onSuccess) => {
-  fetch(urlGetData)
-
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(`${response.status} ${response.statusText}`);
-    })
+  fetch('https://27.javascript.pages.academy/kekstagram-simple/data')
+    .then((response) => response.json())
     .then((photo) => {
       onSuccess(photo);
     })
-    .catch((err) => showAlert(err));
+    .catch(showAlert);
 };
 
-// Отправить данные
 const sendData = (onSuccess, onFail, body) => {
-  fetch(
-    urlSendData,
+  fetch('https://27.javascript.pages.academy/kekstagram-simple',
     {
       method: 'POST',
-      body,
-    },
+      body
+    }
   )
     .then((response) => {
-      if (response.ok) {
+      if(response.ok) {
         onSuccess();
-      }
-      else {
-        onFail('Не удалось отправить форму. Попробуйте ещё раз.');
+      } else {
+        throw new Error;
       }
     })
-    .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз.');
-    });
+    .catch(onFail);
 };
 
-export {getData, sendData};
+export { getData, sendData };
