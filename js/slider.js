@@ -1,4 +1,4 @@
-import { imgUploadPreview, scaleValue, SCALE_CONTROL_MAX} from './form.js';
+import { imgUploadPreview, scaleValue} from './form.js';
 
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
@@ -25,53 +25,58 @@ const EFFECT_FILTERS_DICTIONARY = {
 };
 
 const movingSlider = (filterValue) => {
-  if (filterValue === 'chrome') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1
-    });
-  } else if (filterValue === 'sepia') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1
-    });
-  } else if (filterValue === 'marvin') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 100,
-      },
-      start: 100,
-      step: 1
-    });
-  } else if (filterValue === 'phobos') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1
-    });
-  } else if (filterValue === 'heat') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 1,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1
-    });
-  }
-};
+  switch (filterValue) {
+    case 'chrome':
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        start: 1,
+        step: 0.1
+      });
+      break;
+    case 'sepia':
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        start: 1,
+        step: 0.1
+      });
+      break;
+    case 'marvin':
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 100,
+        },
+        start: 100,
+        step: 1
+      });
+      break;
+    case 'phobos':
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1
+      });
+      break;
+    case 'heat':
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 1,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1
+      });
+      break;
+  }};
 
 const isOriginalEffect = () => {
   if (elementEffectNone.checked) {
@@ -84,8 +89,12 @@ const isOriginalEffect = () => {
 
 const resetFilterValues = () => {
   imgUploadPreview.removeAttribute('class');
-  imgUploadPreview.removeAttribute('style');
-  scaleValue.setAttribute('value', SCALE_CONTROL_MAX);
+  imgUploadPreview.style.filter = '';
+
+};
+const resetScale = () => {
+  scaleValue.value = '100%';
+  imgUploadPreview.style.transform = 'scale(1)';
 };
 
 const changeFilterEffect = (photo, nameFilter) => {
@@ -98,9 +107,7 @@ const changeFilterEffect = (photo, nameFilter) => {
     } else {
       valueEffect = values[handle];
     }
-
-    const digitsOnly = valueEffect.replace(/[^0-9.]/g, '');
-    sliderValueEffect.setAttribute('value', digitsOnly);
+    sliderValueEffect.setAttribute('value', valueEffect);
     for (const filter in EFFECT_FILTERS_DICTIONARY) {
       if (nameFilter === filter) {
         photo.style.filter = `${EFFECT_FILTERS_DICTIONARY[filter]}(${valueEffect})`;
@@ -119,7 +126,6 @@ const onEffectsListClick = (evt) => {
         movingSlider(value);
         imgUploadPreview.classList.add(EFFECT_CLASSES_DICTIONARY[effect]);
         changeFilterEffect(imgUploadPreview, value);
-        scaleValue.value = '100%';
       }
     }
   }
@@ -139,17 +145,10 @@ const createSlider = () => {
     start: 100,
     connect: 'lower',
     format: {
-      to: function (value) {
-        if (Number.isInteger(value)) {
-          return value.toFixed(0);
-        }
-        return value.toFixed(1);
-      },
-      from: function (value) {
-        return parseFloat(value);
-      },
+      to: (value) => (Number.isInteger(value)) ? (value.toFixed(0)) : (value.toFixed(1)),
+      from: (value) => parseFloat(value),
     },
   });
 };
 
-export {resetFilterValues, isOriginalEffect, sliderElement, elementEffectNone, createSlider, effectsList};
+export {resetFilterValues, isOriginalEffect, sliderElement, elementEffectNone, createSlider, effectsList, resetScale};
