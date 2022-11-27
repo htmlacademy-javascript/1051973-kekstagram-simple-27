@@ -1,5 +1,3 @@
-
-
 const randomUsersImageTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesForTemplateBlock = document.querySelector('.pictures');
 

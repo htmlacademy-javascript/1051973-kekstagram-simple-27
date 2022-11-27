@@ -1,5 +1,5 @@
 import {isEscDone} from './util.js';
-
+import {closePopupError, closePopupSuccess} from './escape.js';
 // Шаблон попапа об успешной отправки данных
 const popupSuccessTemplate = document.querySelector('#success').content;
 const popupSuccessContent = popupSuccessTemplate.querySelector('section');
@@ -26,15 +26,6 @@ const onPopupSuccessEscKeydown = (evt) => {
     closePopupSuccess();
   }
 };
-
-// Закрыть попап об успешной отправке данных
-function closePopupSuccess () {
-  const successPopup = document.querySelector('.success');
-  document.body.removeChild(successPopup);
-
-  document.removeEventListener('keydown', onPopupSuccessEscKeydown);
-  document.removeEventListener('click', onPopupSuccessOverlayClick);
-}
 
 // Показать попап об успешной отправке данных из формы
 const showPopupSuccess = () => {
@@ -65,14 +56,6 @@ const onPopupErrorEscKeydown = (evt) => {
   }
 };
 
-// Закрыть попап об ошибке отправки данных из формы
-function closePopupError () {
-  const errorPopup = document.querySelector('.error');
-  document.body.removeChild(errorPopup);
-
-  document.removeEventListener('keydown', onPopupErrorEscKeydown);
-  document.removeEventListener('click', onPopupErrorOverlayClick);
-}
 
 // Показать попап об ошибке отправки данных из формы
 const showPopupError = () => {
@@ -86,4 +69,4 @@ const showPopupError = () => {
   document.addEventListener('click', onPopupErrorOverlayClick);
 };
 
-export {showPopupSuccess, showPopupError};
+export {showPopupSuccess, showPopupError, onPopupErrorOverlayClick, onPopupErrorEscKeydown, onPopupSuccessEscKeydown, onPopupSuccessOverlayClick};
