@@ -94,6 +94,7 @@ const closeFormEditingImgError = () => {
   uploadImgForm.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
   uploadImgInput.value = '';
+
 };
 
 uploadImgInput.addEventListener('change', openFormEditingImg);

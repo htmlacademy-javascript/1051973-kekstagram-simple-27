@@ -1,5 +1,7 @@
 import {isEscDone} from './util.js';
-import {closePopupError, closePopupSuccess} from './escape.js';
+import {closePopupError, closePopupSuccess, onPopupEscKeydown} from './escape.js';
+
+
 // Шаблон попапа об успешной отправки данных
 const popupSuccessTemplate = document.querySelector('#success').content;
 const popupSuccessContent = popupSuccessTemplate.querySelector('section');
@@ -63,7 +65,7 @@ const showPopupError = () => {
   popupErrorFragment.appendChild(popupErrorElement);
   document.body.appendChild(popupErrorFragment);
   const popupErrorButtonClose = popupErrorElement.querySelector('.error__button');
-
+  document.removeEventListener('keydown', onPopupEscKeydown);
   popupErrorButtonClose.addEventListener('click', closePopupError);
   document.addEventListener('keydown', onPopupErrorEscKeydown);
   document.addEventListener('click', onPopupErrorOverlayClick);

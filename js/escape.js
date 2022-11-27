@@ -18,6 +18,7 @@ const onPopupEscKeydown = (evt) => {
 const closePopupError = () => {
   const errorPopup = document.querySelector('.error');
   document.body.removeChild(errorPopup);
+  document.addEventListener('keydown', onPopupEscKeydown);
 
   document.removeEventListener('keydown', onPopupErrorEscKeydown);
   document.removeEventListener('click', onPopupErrorOverlayClick);
